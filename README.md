@@ -8,7 +8,7 @@
 
 Unofficial scripts for installing Blueprint Theme. Works with the latest version of Blueprint!
 
-Read more about [Blueprint](https://blueprint.zip/) here. This script is not associated with the official Pterodactyl Project.
+Read more about [Blueprint](https://blueprint.zip/) here. This script is not associated with the official Blueprint Project.
 
 ## Features
 
@@ -16,7 +16,7 @@ Read more about [Blueprint](https://blueprint.zip/) here. This script is not ass
 
 ## Help and support
 
-For help and support regarding the script itself and **not the official Pterodactyl project**, you can join the [Discord Chat](https://discord.gg/ymrxdmmw).
+For help and support regarding the script itself and **not the official Blueprint project**, you can join the [Discord Chat](https://discord.gg/ymrxdmmw).
 
 ## Supported installations
 
