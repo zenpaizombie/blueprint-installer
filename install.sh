@@ -71,7 +71,6 @@ read -p "Enter your choice (1-2): " choice
 
 case $choice in
     1)
-        check_dependencies
         install_panel
         ;;
     2)
