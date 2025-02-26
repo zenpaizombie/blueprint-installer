@@ -48,7 +48,7 @@ check_dependencies() {
     fi
 }
 
-# Install Theme
+# Install theme
 install_theme() {
     echo -e "${GREEN}Installing Theme...${NC}"
     wget "$(curl -s https://api.github.com/repos/BlueprintFramework/framework/releases/latest | grep 'browser_download_url' | cut -d '"' -f 4)" -O release.zip
@@ -60,7 +60,7 @@ OWNERSHIP="www-data:www-data";
 USERSHELL="/bin/bash";' >> /var/www/pterodactyl/.blueprintrc
     chmod +x blueprint.sh
     bash blueprint.sh
-    echo -e "${GREEN}Installation Done!! Thank You For Using This Script!!${NC}"
+    echo -e "${GREEN}Installer: Installation Done!! Thank You For Using This Script!!${NC}"
 }
 
 # Main Menu
@@ -71,7 +71,8 @@ read -p "Enter your choice (1-2): " choice
 
 case $choice in
     1)
-        install_panel
+        check_dependencies
+        install_theme
         ;;
     2)
         echo -e "${GREEN}Exiting...${NC}"
