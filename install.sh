@@ -71,7 +71,7 @@ USERSHELL="/bin/bash";' >> /var/www/pterodactyl/.blueprintrc
 }
 
 # Main Menu
-echo -e "${RED}Warning sudo must be installed!!${NC}"
+echo -e "${RED}⚠️ Warning sudo must be installed!!${NC}"
 echo -e "${CYAN}Select an option:${NC}"
 echo -e "1. Install Theme + Dependencies (Both)"
 echo -e "2. Install Dependencies"
