@@ -34,7 +34,7 @@ check_dependencies() {
     echo -e "${GREEN}Installing Dependencies...${NC}"
 
     if ! command -v git &>/dev/null; then
-        echo -e "${RED}git is not installed. Installing...${NC}"
+        echo -e "${RED}yarn is not installed. Installing...${NC}"
         sudo apt-get install -y ca-certificates curl gnupg
         sudo mkdir -p /etc/apt/keyrings
         curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
@@ -45,12 +45,14 @@ check_dependencies() {
         cd /var/www/pterodactyl
         yarn
         apt install -y zip unzip git curl wget
+        cd
     fi
 }
 
 # Install theme
 install_theme() {
     echo -e "${GREEN}Installing Theme...${NC}"
+    cd /var/www/pterodactyl
     wget "$(curl -s https://api.github.com/repos/BlueprintFramework/framework/releases/latest | grep 'browser_download_url' | cut -d '"' -f 4)" -O release.zip
     unzip release.zip
     touch /var/www/pterodactyl/.blueprintrc
@@ -65,8 +67,10 @@ USERSHELL="/bin/bash";' >> /var/www/pterodactyl/.blueprintrc
 
 # Main Menu
 echo -e "${CYAN}Select an option:${NC}"
-echo -e "1. Install Theme"
-echo -e "2. Exit"
+echo -e "1. Install Theme + Dependencies (Both)"
+echo -e "2. Install Dependencies"
+echo -e "3. Install Theme"
+echo -e "4. Exit**
 read -p "Enter your choice (1-2): " choice
 
 case $choice in
@@ -75,11 +79,17 @@ case $choice in
         install_theme
         ;;
     2)
+        check_dependencies
+        ;;
+    3)
+        install_theme
+        ;;
+    4)
         echo -e "${GREEN}Exiting...${NC}"
         exit 0
         ;;
     *)
-        echo -e "${RED}Invalid option. Please select 1 or 2.${NC}"
+        echo -e "${RED}Invalid option. Please select between 1-4.${NC}"
         exit 1
         ;;
 esac
