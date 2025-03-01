@@ -34,7 +34,7 @@ check_dependencies() {
     if ! command -v git &>/dev/null; then
         echo -e "${RED}Git is not installed. Installing...${NC}"
         sudo apt-get update
-        sudo apt-get install -y ca-certificates curl gnupg zip unzip git curl wget npm sudo
+        sudo apt-get install -y ca-certificates curl gnupg zip unzip git curl wget npm
         
         sudo mkdir -p /etc/apt/keyrings
         curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
@@ -71,6 +71,7 @@ USERSHELL="/bin/bash";' >> /var/www/pterodactyl/.blueprintrc
 }
 
 # Main Menu
+echo -e "${RED}Warning sudo must be installed!!${NC}"
 echo -e "${CYAN}Select an option:${NC}"
 echo -e "1. Install Theme + Dependencies (Both)"
 echo -e "2. Install Dependencies"
