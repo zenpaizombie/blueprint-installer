@@ -71,7 +71,7 @@ echo -e "1. Install Theme + Dependencies (Both)"
 echo -e "2. Install Dependencies"
 echo -e "3. Install Theme"
 echo -e "4. Exit**
-read -p "Enter your choice (1-4):"
+read -p "Enter your choice (1-4): "
 
 case $choice in
     1)
