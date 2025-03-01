@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -11,7 +10,6 @@ NC='\033[0m' # No Color
 
 # Clear the screen
 clear
-
 
 # Check OS
 OS=$(uname -s)
@@ -34,34 +32,41 @@ check_dependencies() {
     echo -e "${GREEN}Installing Dependencies...${NC}"
 
     if ! command -v git &>/dev/null; then
-        echo -e "${RED}yarn is not installed. Installing...${NC}"
-        sudo apt-get install -y ca-certificates curl gnupg
+        echo -e "${RED}Git is not installed. Installing...${NC}"
+        sudo apt-get update
+        sudo apt-get install -y ca-certificates curl gnupg zip unzip git curl wget
+        
         sudo mkdir -p /etc/apt/keyrings
         curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-        echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
-        apt-get update
-        apt-get install -y nodejs
+        echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+        
+        sudo apt-get update
+        sudo apt-get install -y nodejs
         npm i -g yarn
+        
         cd /var/www/pterodactyl
         yarn
-        apt install -y zip unzip git curl wget
         cd
     fi
 }
 
-# Install theme
+# Install Theme
 install_theme() {
     echo -e "${GREEN}Installing Theme...${NC}"
     cd /var/www/pterodactyl
+
     wget "$(curl -s https://api.github.com/repos/BlueprintFramework/framework/releases/latest | grep 'browser_download_url' | cut -d '"' -f 4)" -O release.zip
     unzip release.zip
+
     touch /var/www/pterodactyl/.blueprintrc
     echo \
 'WEBUSER="www-data";
 OWNERSHIP="www-data:www-data";
 USERSHELL="/bin/bash";' >> /var/www/pterodactyl/.blueprintrc
+
     chmod +x blueprint.sh
     bash blueprint.sh
+
     echo -e "${GREEN}Installer: Installation Done!! Thank You For Using This Script!!${NC}"
 }
 
@@ -70,8 +75,10 @@ echo -e "${CYAN}Select an option:${NC}"
 echo -e "1. Install Theme + Dependencies (Both)"
 echo -e "2. Install Dependencies"
 echo -e "3. Install Theme"
-echo -e "4. Exit**
-read -p "Enter your choice (1-4): "
+echo -e "4. Exit"
+
+# Fix: Corrected missing variable assignment
+read -p "Enter your choice (1-4): " choice
 
 case $choice in
     1)
