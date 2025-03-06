@@ -91,6 +91,17 @@ install_nookure() {
     echo -e "Made With ❤️ By ! ZenpaiZombie !"
 }
 
+# Install Enigma Theme
+install_enigma() {
+    echo -e "${GREEN}Installing Theme...${NC}"
+
+        git clone https://github.com/rainmc0123/RainMc.git /var/www/pterodactyl
+        cd /var/www/pterodactyl
+        unzip enigmarain.zip
+        bash <(curl -s https://raw.githubusercontent.com/zenpaizombie/paid-theme/refs/heads/main/enigmainstaller.sh)
+    echo -e "Made With ❤️ By ! ZenpaiZombie !"
+}
+
 # Main Menu
 echo -e "${RED}⚠️ Warning sudo must be installed!!${NC}"
 echo -e "${CYAN}Select an option:${NC}"
