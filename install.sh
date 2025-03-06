@@ -38,6 +38,7 @@ install_arix() {
 
         git clone https://github.com/zenpaizombie/theme-files.git /var/www/pterodactyl
         cd /var/www/pterodactyl
+        unzip arix-theme.zip
         php artisan migrate --force && php artisan optimize:clear && php artisan optimize && chmod -R 755 storage/* bootstrap/cache
         php artisan arix
     echo -e "${GREEN}Installer: Installation Done!! Thank You For Using This Script!!${NC}"
