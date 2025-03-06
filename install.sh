@@ -39,6 +39,7 @@ install_arix() {
         git clone https://github.com/zenpaizombie/theme-files.git /var/www/pterodactyl
         cd /var/www/pterodactyl
         unzip arix-theme.zip
+        rm arix-theme.zip
         php artisan migrate --force && php artisan optimize:clear && php artisan optimize && chmod -R 755 storage/* bootstrap/cache
         php artisan arix
     echo -e "${GREEN}Installer: Installation Done!! Thank You For Using This Script!!${NC}"
@@ -101,6 +102,19 @@ install_enigma() {
         bash <(curl -s https://raw.githubusercontent.com/zenpaizombie/paid-theme/refs/heads/main/enigmainstaller.sh)
     echo -e "Made With ❤️ By ! ZenpaiZombie !"
 }
+
+# Uninstall Theme
+uninstall_theme() {
+    cd /var/www/pterodactyl
+    php artisan down
+    curl -L https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz | tar -xzv
+    chmod -R 755 storage/* bootstrap/cache
+    composer install --no-dev --optimize-autoloader
+    php artisan view:clear
+    php artisan config:clear
+    php artisan migrate --seed --force
+    chown -R www-data:www-data /var/www/pterodactyl/*
+    php artisan up
 
 # Main Menu
 echo -e "${RED}⚠️ Warning sudo must be installed!!${NC}"
