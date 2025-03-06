@@ -1,4 +1,4 @@
-# :bird: blueprint-theme-installer
+# :bird: theme-installer
 
 ![Test Theme](https://raw.githubusercontent.com/BlueprintFramework/framework/refs/heads/main/blueprint/assets/Badges/badge.png)
 ![Test Panel](https://github.com/pterodactyl-installer/pterodactyl-installer/actions/workflows/panel.yml/badge.svg)
