@@ -9,88 +9,107 @@ YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
 # Clear the screen
+apt install git npm -y
 clear
 
-# Check OS
-OS=$(uname -s)
-IP_ADDRESS=$(curl -s https://checkip.pterodactyl-installer.se)
-if [[ "$OS" == "Linux" ]]; then
-    DISTRO=$(lsb_release -i | cut -f2)
-elif [[ "$OS" == "Darwin" ]]; then
-    DISTRO="macOS"
-elif [[ "$OS" == "MINGW64_NT" ]]; then
-    DISTRO="Windows"
-else
-    echo -e "${RED}[ERROR] Unsupported OS: $OS. Please use Ubuntu, CentOS, Debian, Windows, or macOS.${NC}"
-    exit 1
-fi
 
-echo -e "${YELLOW}Detected OS: $DISTRO${NC}"
-
-# Check Dependencies
-check_dependencies() {
+# Install Arix Theme
+install_arix() {
     echo -e "${GREEN}Installing Dependencies...${NC}"
 
-    if ! command -v git &>/dev/null; then
-        echo -e "${RED}Git is not installed. Installing...${NC}"
-        sudo apt-get update
-        sudo apt-get install -y ca-certificates curl gnupg zip unzip git curl wget npm
+        apt update
+        apt install -y ca-certificates curl gnupg zip unzip git curl wget npm
         
-        sudo mkdir -p /etc/apt/keyrings
+        curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+        apt install -y nodejs
+        
+        apt update
+        npm i -g yarn
+        
+        cd /var/www/pterodactyl
+        yarn
+
+        export NODE_OPTIONS=--openssl-legacy-provider
+        yarn build:production
+        cd
+        echo -e "${GREEN}Dependencies Installed Successfully!${NC}"
+
+    echo -e "${GREEN}Installing Theme...${NC}"
+
+        git clone https://github.com/zenpaizombie/theme-files.git /var/www/pterodactyl
+        cd /var/www/pterodactyl
+        php artisan migrate --force && php artisan optimize:clear && php artisan optimize && chmod -R 755 storage/* bootstrap/cache
+        php artisan arix
+    echo -e "${GREEN}Installer: Installation Done!! Thank You For Using This Script!!${NC}"
+    echo -e "Made With ❤️ By ! ZenpaiZombie !"
+}
+
+# Install Blueprint Theme
+install_blueprint() {
+    echo -e "${GREEN}Installing Dependencies...${NC}"
+    
+        apt-get update
+        apt-get install -y ca-certificates curl gnupg zip unzip git curl wget npm
+        
+        mkdir -p /etc/apt/keyrings
         curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
         echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
         
-        sudo apt-get update
-        sudo apt-get install -y nodejs
+        apt-get update
+        apt-get install -y nodejs
         npm i -g yarn
         
         cd /var/www/pterodactyl
         yarn
         cd
-    fi
-}
-
-# Install Theme
-install_theme() {
+    
     echo -e "${GREEN}Installing Theme...${NC}"
     cd /var/www/pterodactyl
 
-    wget "$(curl -s https://api.github.com/repos/BlueprintFramework/framework/releases/latest | grep 'browser_download_url' | cut -d '"' -f 4)" -O release.zip
-    unzip release.zip
+        wget "$(curl -s https://api.github.com/repos/BlueprintFramework/framework/releases/latest | grep 'browser_download_url' | cut -d '"' -f 4)" -O release.zip
+        unzip release.zip
 
-    touch /var/www/pterodactyl/.blueprintrc
-    echo \
+        touch /var/www/pterodactyl/.blueprintrc
+        echo \
 'WEBUSER="www-data";
 OWNERSHIP="www-data:www-data";
 USERSHELL="/bin/bash";' >> /var/www/pterodactyl/.blueprintrc
 
-    chmod +x blueprint.sh
-    bash blueprint.sh
+        chmod +x blueprint.sh
+        bash blueprint.sh
 
     echo -e "${GREEN}Installer: Installation Done!! Thank You For Using This Script!!${NC}"
+    echo -e "Made With ❤️ By ! ZenpaiZombie !"
+}
+
+# Install Nookure Theme
+install_nookure() {
+    echo -e "${GREEN}Installing Theme...${NC}"
+
+        bash <(curl -s https://raw.githubusercontent.com/zenpaizombie/paid-theme/refs/heads/main/nookure.sh)
+    echo -e "Made With ❤️ By ! ZenpaiZombie !"
 }
 
 # Main Menu
 echo -e "${RED}⚠️ Warning sudo must be installed!!${NC}"
 echo -e "${CYAN}Select an option:${NC}"
-echo -e "1. Install Theme + Dependencies (Both)"
-echo -e "2. Install Dependencies"
-echo -e "3. Install Theme"
-echo -e "4. Exit"
+echo -e "1. Install Arix Theme"
+echo -e "2. Install Blueprint Theme"
+echo -e "3. Install Nookure Theme"
+echo -e "4. ${RED}Exit${NC}"
 
 # Fix: Corrected missing variable assignment
 read -p "Enter your choice (1-4): " choice
 
 case $choice in
     1)
-        check_dependencies
-        install_theme
+        install_arix
         ;;
     2)
-        check_dependencies
+        install_blueprint
         ;;
     3)
-        install_theme
+        install_nookure
         ;;
     4)
         echo -e "${GREEN}Exiting...${NC}"
