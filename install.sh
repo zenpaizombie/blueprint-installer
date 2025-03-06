@@ -123,7 +123,8 @@ echo -e "1. Install Arix Theme"
 echo -e "2. Install Blueprint Theme"
 echo -e "3. Install Nookure Theme"
 echo -e "4. Install Enigma Theme"
-echo -e "5. ${RED}Exit${NC}"
+echo -e "5. Uninstall Theme"
+echo -e "6. ${RED}Exit${NC}"
 
 # Fix: Corrected missing variable assignment
 read -p "Enter your choice (1-4): " choice
@@ -142,6 +143,9 @@ case $choice in
         install_enigma
         ;;
     5)
+        uninstall_theme
+        ;;
+    6)
         echo -e "${GREEN}Exiting...${NC}"
         exit 0
         ;;
